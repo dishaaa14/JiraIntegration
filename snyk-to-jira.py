@@ -2,7 +2,7 @@ import json
 import requests
 
 # Your JIRA instance URL and API token
-jira_url = "https://dishapanjwani1432-1735014103836.atlassian.net/rest/api/3/issue"
+jira_url = "https://dishapanjwani1432-1735014103836.atlassian.net"
 jira_email = "dishapanjwani1432@gmail.com"
 jira_token = "ATATT3xFfGF0QB1_UBCWTas8kU_Vc4l9aPrBCxmjc0uy17fJW9Kpz1pf2damKagQGclrPhzKInDO7dEx7JXEyUzYEr-qZsXx_SqTbWN6R4c782ydPbaoxxyAFOiZ6scXaNLQ7dp8c44ogIzAiCE5qiWa-vaJazYuyBG0_UA9QLx-W1oqvGtbng0=781FEE09"
 jira_project_key = "SCRUM"  # Replace with your project key
