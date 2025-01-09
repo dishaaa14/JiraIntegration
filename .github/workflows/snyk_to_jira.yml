@@ -1,0 +1,37 @@
+name: Snyk to JIRA Integration
+
+on:
+  push:
+    branches:
+      - main   # Trigger on pushes to the 'main' branch
+  pull_request:
+    branches:
+      - main   # Trigger on pull requests to the 'main' branch
+
+jobs:
+  snyk_scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          # Install Snyk CLI and Python dependencies
+          npm install -g snyk
+          python -m pip install requests
+
+      - name: Run Snyk Test and Generate Report
+        run: |
+          snyk test --json > snyk-report.json
+        continue-on-error: true
+
+      - name: Run Python Script to Create JIRA Issues
+        run: |
+          python snyk_to_jira.py
+        env:
+          JIRA_EMAIL: "dishapanjwani1432@gmail.com"
+          JIRA_API_TOKEN: "ATATT3xFfGF0QB1_UBCWTas8kU_Vc4l9aPrBCxmjc0uy17fJW9Kpz1pf2damKagQGclrPhzKInDO7dEx7JXEyUzYEr-qZsXx_SqTbWN6R4c782ydPbaoxxyAFOiZ6scXaNLQ7dp8c44ogIzAiCE5qiWa-vaJazYuyBG0_UA9QLx-W1oqvGtbng0=781FEE09"
+          JIRA_PROJECT_KEY: "SCRUM"
+
