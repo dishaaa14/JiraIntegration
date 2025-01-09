@@ -1,10 +1,13 @@
 import json
 import requests
+from requests.auth import HTTPBasicAuth
 
 # Your JIRA instance URL and API token
-jira_url = "https://dishapanjwani1432-1735014103836.atlassian.net"
+jira_base_url = "https://dishapanjwani1432-1735014103836.atlassian.net"
+jira_api_endpoint = "/rest/api/3/issue"
+jira_url = jira_base_url + jira_api_endpoint
 jira_email = "dishapanjwani1432@gmail.com"
-jira_token = "ATATT3xFfGF0QB1_UBCWTas8kU_Vc4l9aPrBCxmjc0uy17fJW9Kpz1pf2damKagQGclrPhzKInDO7dEx7JXEyUzYEr-qZsXx_SqTbWN6R4c782ydPbaoxxyAFOiZ6scXaNLQ7dp8c44ogIzAiCE5qiWa-vaJazYuyBG0_UA9QLx-W1oqvGtbng0=781FEE09"
+jira_token = "ATATT3xFfGF0QB1_UBCWTas8kU_Vc4l9aPrBCxmjc0uy17fJW9Kpz1pf2damKagQGclrPhzKInDO7dEx7JXEyUzYEr-qZsXx_SqTbWN6R4c782ydPbaoxxyAFOiZ6scXaNLQ7dp8c44ogIzAiCE5qiWa-vaJazYuyBG0_UA9QLx-W1oqvGtbng0"
 jira_project_key = "SCRUM"  # Replace with your project key
 
 # Path to the Snyk JSON report
@@ -20,12 +23,12 @@ def create_jira_issue(title, description, severity, cvss_score, cvss, cve_ids):
     issue_data = {
         "fields": {
             "project": {
-                "key": "SCRUM"  # Replace with your JIRA project key
+                "key": jira_project_key  # Use the JIRA project key
             },
             "summary": f"Security Vulnerability: {title}",
             "description": f"{description}\n\nSeverity: {severity}\nCVSS Score: {cvss_score}\nCVSS v3: {cvss}\nCVE IDs: {cve_ids}",
             "issuetype": {
-                "name": "Bug"  # You can modify this based on your JIRA issue types
+                "name": "Bug"  # Modify this based on your JIRA issue types
             },
             "priority": {
                 "name": "High" if severity == "high" else "Medium"  # Customize this based on severity
@@ -37,7 +40,7 @@ def create_jira_issue(title, description, severity, cvss_score, cvss, cve_ids):
     response = requests.post(
         jira_url,
         json=issue_data,
-        auth=(jira_email, jira_token),
+        auth=HTTPBasicAuth(jira_email, jira_token),
         headers={'Content-Type': 'application/json'}
     )
     
