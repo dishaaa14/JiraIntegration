@@ -7,7 +7,7 @@ jira_base_url = "https://dishapanjwani1432-1735014103836.atlassian.net"
 jira_api_endpoint = "/rest/api/3/issue"
 jira_url = jira_base_url + jira_api_endpoint
 jira_email = "dishapanjwani1432@gmail.com"
-jira_token = "ATATT3xFfGF0d774sI_are6SrWBUqiOYxPaTFNUejdCPS3RfamZBOW6J5xC7elZS4ExZidy8OYYEd4UL6J1BQTxaglcexjUpHlcQpt79K_poihD3wU-tMDep3kLxanVhGbyyhXqBxzB94BoYSs18AYX9JB10mQG3b9ZFgq6GUcQp3jKy0tG39k8=816DBA52"
+jira_token = "ATATT3xFfGF09C1xrFegwcruUXHwF1RSqObAHJ8I_v32_6D9p9v5xRQ3kIN3i5knKSENrobf2ISkBB9iAeCx8sfA_YUXz1RK9KeKZJZeUHW6UrxgK0YxFuGKByBum5VcJFCkarXyNFFaRYmdc1PbM4jMWgA_wulY3B4F3d5t90QwOCtxbWqRPXg=1CB64F50"
 jira_project_key = "SCRUM"  # Replace with your project key
 
 # Path to the Snyk JSON report
