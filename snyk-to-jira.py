@@ -35,9 +35,9 @@ def create_jira_issue(title, description, severity, cvss_score, cvss, cve_ids):
 
     # Send the request to JIRA to create the issue
     response = requests.post(
-        JIRA_URL,
+        jira_url,
         json=issue_data,
-        auth=(JIRA_USERNAME, JIRA_API_TOKEN),
+        auth=(jira_email, jira_token),
         headers={'Content-Type': 'application/json'}
     )
     
