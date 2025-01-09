@@ -29,7 +29,7 @@ jobs:
 
       - name: Run Python Script to Create JIRA Issues
         run: |
-          python snyk_to_jira.py
+          python snyk-to-jira.py
         env:
           JIRA_EMAIL: "dishapanjwani1432@gmail.com"
           JIRA_API_TOKEN: "ATATT3xFfGF0QB1_UBCWTas8kU_Vc4l9aPrBCxmjc0uy17fJW9Kpz1pf2damKagQGclrPhzKInDO7dEx7JXEyUzYEr-qZsXx_SqTbWN6R4c782ydPbaoxxyAFOiZ6scXaNLQ7dp8c44ogIzAiCE5qiWa-vaJazYuyBG0_UA9QLx-W1oqvGtbng0=781FEE09"
