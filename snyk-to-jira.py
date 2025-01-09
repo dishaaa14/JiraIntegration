@@ -2,7 +2,7 @@ import json
 import requests
 
 # Your JIRA instance URL and API token
-jira_url = "https://dishapanjwani1432-1735014103836.atlassian.net"
+jira_url = "https://dishapanjwani1432-1735014103836.atlassian.net/rest/api/3/issue"
 jira_email = "dishapanjwani1432@gmail.com"
 jira_token = "ATATT3xFfGF0QB1_UBCWTas8kU_Vc4l9aPrBCxmjc0uy17fJW9Kpz1pf2damKagQGclrPhzKInDO7dEx7JXEyUzYEr-qZsXx_SqTbWN6R4c782ydPbaoxxyAFOiZ6scXaNLQ7dp8c44ogIzAiCE5qiWa-vaJazYuyBG0_UA9QLx-W1oqvGtbng0=781FEE09"
 jira_project_key = "SCRUM"  # Replace with your project key
@@ -11,50 +11,64 @@ jira_project_key = "SCRUM"  # Replace with your project key
 report_path = 'multi-test-report.json'
 
 # Read the Snyk JSON report
-with open(report_path, 'r') as report_file:
-    report = json.load(report_file)
+with open('snyk-report.json', 'r') as file:
+    report = json.load(file)
 
-# Function to create a JIRA issue
-def create_jira_issue(vulnerability):
-    url = f"{jira_url}/rest/api/3/issue"
-    
-    # Prepare the JIRA issue data
+# Function to create JIRA issues
+def create_jira_issue(title, description, severity, cvss_score, cvss, cve_ids):
+    # Define the payload for creating an issue in JIRA
     issue_data = {
         "fields": {
             "project": {
-                "key": jira_project_key
+                "key": "SCRUM"  # Replace with your JIRA project key
             },
-            "summary": f"Vulnerability: {vulnerability['package']}",
-            "description": f"Package: {vulnerability['package']}\n" \
-                           f"Version: {vulnerability['version']}\n" \
-                           f"Severity: {vulnerability['severity']}\n" \
-                           f"Description: {vulnerability['description']}",
+            "summary": f"Security Vulnerability: {title}",
+            "description": f"{description}\n\nSeverity: {severity}\nCVSS Score: {cvss_score}\nCVSS v3: {cvss}\nCVE IDs: {cve_ids}",
             "issuetype": {
-                "name": "Bug"  # You can change this to "Task" or another issue type if needed
+                "name": "Bug"  # You can modify this based on your JIRA issue types
+            },
+            "priority": {
+                "name": "High" if severity == "high" else "Medium"  # Customize this based on severity
             }
         }
     }
 
-    # Make the API request to create an issue
+    # Send the request to JIRA to create the issue
     response = requests.post(
-        url,
+        JIRA_URL,
         json=issue_data,
-        auth=(jira_email, jira_token),
-        headers={"Content-Type": "application/json"}
+        auth=(JIRA_USERNAME, JIRA_API_TOKEN),
+        headers={'Content-Type': 'application/json'}
     )
-
+    
     if response.status_code == 201:
-        print(f"Issue created successfully: {vulnerability['package']}")
+        print(f"Issue created successfully: {title}")
     else:
-        print(f"Failed to create issue: {response.text}")
+        print(f"Failed to create issue: {response.status_code} - {response.text}")
 
-# Process the Snyk report and create JIRA issues for critical/high vulnerabilities
-for issue in report.get('issues', []):
-    # Check the severity level of each issue (critical or high)
-    if issue['severity'] in ['critical', 'high']:
-        create_jira_issue({
-            'package': issue['package']['name'],
-            'version': issue['package']['version'],
-            'severity': issue['severity'],
-            'description': issue['title']
-        })
+# Iterate over the top-level list (each entry represents an issue report)
+for entry in report:
+    # Get the 'vulnerabilities' from each entry
+    vulnerabilities = entry.get('vulnerabilities', [])
+
+    # Iterate over each vulnerability and process it
+    for vulnerability in vulnerabilities:
+        # Extract the necessary information from the vulnerability
+        title = vulnerability.get('title', 'Unknown Title')
+        severity = vulnerability.get('severity', 'Unknown Severity')
+        description = vulnerability.get('description', 'No Description Provided')
+        cvss_score = vulnerability.get('cvssScore', 'N/A')
+        cvss = vulnerability.get('CVSSv3', 'N/A')
+        cve_ids = ", ".join(vulnerability.get('identifiers', {}).get('CVE', []))
+
+        # Print the extracted data (for debugging, you can later remove this part)
+        print(f"Vulnerability Title: {title}")
+        print(f"Severity: {severity}")
+        print(f"CVSS Score: {cvss_score}")
+        print(f"CVSS v3: {cvss}")
+        print(f"CVE IDs: {cve_ids}")
+        print(f"Description: {description}")
+        print("-" * 80)
+
+        # Create JIRA issue using the extracted vulnerability data
+        create_jira_issue(title, description, severity, cvss_score, cvss, cve_ids)
