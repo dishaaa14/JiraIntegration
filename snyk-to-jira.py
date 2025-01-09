@@ -11,7 +11,7 @@ jira_project_key = "SCRUM"  # Replace with your project key
 report_path = 'multi-test-report.json'
 
 # Read the Snyk JSON report
-with open('multi-test-report.json', 'r') as file:
+with open(report_path, 'r') as file:
     report = json.load(file)
 
 # Function to create JIRA issues
