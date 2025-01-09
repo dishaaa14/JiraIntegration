@@ -23,7 +23,7 @@ def create_jira_issue(title, description, severity, cvss_score, cvss, cve_ids):
     issue_data = {
         "fields": {
             "project": {
-                "key": "JIL"  # Use the JIRA project key
+                "key": "JIR"  # Use the JIRA project key
             },
             "summary": f"Security Vulnerability: {title}",
             "description": f"{description}\n\nSeverity: {severity}\nCVSS Score: {cvss_score}\nCVSS v3: {cvss}\nCVE IDs: {cve_ids}",
