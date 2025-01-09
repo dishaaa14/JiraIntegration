@@ -24,7 +24,7 @@ jobs:
 
       - name: Run Snyk Test and Generate Report
         run: |
-          snyk test --json > snyk-report.json
+          snyk test --json > multi-test-report.json
         continue-on-error: true
 
       - name: Run Python Script to Create JIRA Issues
