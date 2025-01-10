@@ -9,20 +9,28 @@ on:
       - main   # Trigger on pull requests to the 'main' branch
 
 jobs:
-  snyk_report_processing:
+  create-issues:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
+    - name: Checkout Code
+      uses: actions/checkout@v2
 
-      - name: Install Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
 
-      - name: Install Dependencies
-        run: pip install requests  # Add any other dependencies your script needs
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests
 
-      - name: Process Snyk Report
-        run: python snyk-to-jira.py
+    - name: Run Script
+      run: python snyk.py
+      env:
+        SNYK_TOKEN: "6e8051e6-4678-42f4-8363-117db9521bef"
+        JIRA_USER: "dishapanjwani1432"
+        JIRA_API_TOKEN: "ATATT3xFfGF0obAB5hyKJHNh-1ihbM1wu383NUZfYUnUrYX__Q8EMJRd5nc1rM7-RvdulZaib695arE7zuB_WyLcKVmpzHXukpt4Q9JOF88XGkhP-NRCwWzSs-90gP6BDYmC9BTjDYP_GXnkKsmWy7NCuXGVJeiDEP1gb61d63g4AwqQqUeHLW0=38542C71"
+        JIRA_BASE_URL: "https://dishapanjwani1432-1735014103836.atlassian.net"
 
