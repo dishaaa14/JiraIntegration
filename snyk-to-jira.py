@@ -4,7 +4,7 @@ from requests.auth import HTTPBasicAuth
 
 # Your JIRA instance URL and API token
 jira_base_url = "https://dishapanjwani1432-1735014103836.atlassian.net"
-jira_api_endpoint = "/rest/api/3/issue/bulk"
+jira_api_endpoint = "/rest/api/3/issue"
 jira_url = jira_base_url + jira_api_endpoint
 jira_email = "dishapanjwani1432@gmail.com"
 jira_token = "ATATT3xFfGF0akUpqpdL9fJQ_wFIGFL6mq5qTrfA01P8G1yUaRX2PozdDG02z6nrK2U5sGbNzT6M43jP5youlck-qjis7IijO6-xof7SRdkTorYh69Cp8wqqtaWBBhE3NYFiF3a3H9pR9YbEIWlbkBf9Nq7gV1infeoVlyY8BlH-YGi8VG8HFsw=F137DF2E"
